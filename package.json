@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build:css": "npx @tailwindcss/cli -i ./public/css/tailwind.css -o ./public/css/style.css --watch"
   },
   "repository": {
     "type": "git",
@@ -18,8 +19,10 @@
   "homepage": "https://github.com/Udi2312/Omegle#readme",
   "description": "",
   "dependencies": {
+    "@tailwindcss/cli": "^4.1.11",
     "ejs": "^3.1.10",
     "express": "^5.1.0",
-    "socket.io": "^4.8.1"
+    "socket.io": "^4.8.1",
+    "tailwindcss": "^4.1.11"
   }
 }
