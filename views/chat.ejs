@@ -153,6 +153,7 @@
 
             socket.on("joined", function (roomname) {
                 room = roomname;
+                console.log('joined')
                 document.querySelector(".nobody").classList.add("hidden");
             })
 
