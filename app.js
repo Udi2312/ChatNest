@@ -24,6 +24,8 @@ io.on('connection', function(socket){
     waitingusers.push(socket);
    }
    })
+
+   
 })
 
 app.set('view engine', 'ejs');
