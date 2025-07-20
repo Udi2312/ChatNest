@@ -18,14 +18,21 @@ io.on('connection', function(socket){
     const roomname= `${socket.id}-${partner.id}`
     socket.join(roomname);
     partner.join(roomname);
-    io.to(roomname).emit('joined')
+    io.to(roomname).emit('joined' , roomname)
    }
    else{
     waitingusers.push(socket);
    }
    })
 
-   
+   socket.on('disconnect', function(){
+     let index = waitingusers.findIndex(waitinguser => waitinguser.id === socket.id);
+     waitingusers.splice(index, 1);
+   })
+
+   socket.on('message', function(data){
+      socket.broadcast.to(data.room).emit('message', data.message);
+   })
 })
 
 app.set('view engine', 'ejs');
