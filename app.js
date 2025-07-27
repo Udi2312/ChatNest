@@ -25,9 +25,25 @@ io.on('connection', function(socket){
    }
    })
 
+   socket.on('signalingMessage', function(data){
+      socket.broadcast.to(data.room).emit('signalingMessage', data.message);
+      
+   })
    socket.on('disconnect', function(){
      let index = waitingusers.findIndex(waitinguser => waitinguser.id === socket.id);
      waitingusers.splice(index, 1);
+   })
+
+   socket.on('startVideoCall', function({ room }){
+      socket.broadcast.to(room).emit('incomingCall');
+   })
+
+   socket.on('acceptCall', function({ room }){
+      socket.broadcast.to(room).emit('callAccepted');
+   })
+
+   socket.on('rejectCall', function({ room }){
+      socket.broadcast.to(room).emit('callRejected');
    })
 
    socket.on('message', function(data){

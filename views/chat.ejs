@@ -6,75 +6,168 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chat</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+      * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
 
-        #videos {
-            display: grid;
-            grid-template-columns: 1fr;
-            height: 100vh;
-            overflow: hidden;
-        }
+body {
+    background-color: #121212;
+    color: #e0e0e0;
+}
 
-        .video-player {
-            background-color: black;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
+/* Video area */
+#videos {
+    display: grid;
+    grid-template-columns: 1fr;
+    height: 100vh;
+    overflow: hidden;
+    background: #000;
+}
 
-        .smallFrame {
-            position: fixed;
-            bottom: 100px;
-            right: 20px;
-            height: 170px;
-            width: 300px;
-            border-radius: 6px;
-            z-index: 10;
-        }
+.video-player {
+    background-color: #1c1c1c;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
 
-        #controls {
-            position: fixed;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            gap: 1em;
-        }
+.smallFrame {
+    position: fixed;
+    bottom: 100px;
+    right: 20px;
+    height: 170px;
+    width: 300px;
+    border-radius: 10px;
+    border: 2px solid #00ffcc;
+    box-shadow: 0 0 15px rgba(0, 255, 204, 0.5);
+    z-index: 10;
+}
 
-        .control-container {
-            background-color: #6df966;
-            padding: 20px;
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            cursor: pointer;
-        }
+/* Controls */
+#controls {
+    position: fixed;
+    bottom: 25px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 1em;
+    background: rgba(25, 25, 25, 0.6);
+    padding: 12px 20px;
+    border-radius: 50px;
+    box-shadow: 0 0 20px rgba(0, 255, 204, 0.3);
+}
 
-        .control-container svg {
-            height: 30px;
-            width: 30px;
-        }
+.control-container {
+    background: #222;
+    padding: 18px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 1px solid #333;
+}
 
-        #leave-btn {
-            background-color: rgb(255, 80, 80, 1);
-        }
+.control-container:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 12px rgba(0, 255, 204, 0.7);
+}
 
-        @media screen and (max-width: 600px) {
-            .smallFrame {
-                height: 80px;
-                width: 120px;
-            }
+.control-container svg {
+    height: 28px;
+    width: 28px;
+    fill: white;
+}
 
-            .control-container img {
-                height: 20px;
-                width: 20px;
-            }
-        }
+#leave-btn {
+    background-color: #ff4040;
+    box-shadow: 0 0 12px rgba(255, 64, 64, 0.7);
+}
+
+/* Incoming call popup */
+#incoming-call {
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(5px);
+}
+
+#incoming-call .bg-white {
+    background: #1f1f1f;
+    border: 1px solid #00ffcc;
+    box-shadow: 0 0 15px rgba(0, 255, 204, 0.3);
+    color: #e0e0e0;
+}
+
+/* Chat area */
+main {
+    background: #181818;
+    padding: 16px;
+    color: #e0e0e0;
+}
+
+.nobody {
+    color: #777;
+    font-style: italic;
+}
+
+/* Messages */
+.bg-blue-500 {
+    background: #00bcd4 !important;
+    color: white;
+}
+
+.bg-gray-300 {
+    background: #2c2c2c !important;
+    color: #e0e0e0;
+}
+
+/* Chat form */
+form {
+    background: #1a1a1a;
+    border-top: 1px solid #333;
+}
+
+#messagebox {
+    background: #2a2a2a;
+    color: white;
+    border: 1px solid #444;
+}
+
+#messagebox:focus {
+    border: 1px solid #00ffcc;
+    box-shadow: 0 0 8px rgba(0, 255, 204, 0.5);
+}
+
+button[type="submit"] {
+    background: #00ffcc;
+    color: #121212;
+    font-weight: bold;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+button[type="submit"]:hover {
+    background: #00e6b8;
+}
+
+/* Mobile tweaks */
+@media screen and (max-width: 600px) {
+    .smallFrame {
+        height: 80px;
+        width: 120px;
+    }
+    .control-container {
+        padding: 14px;
+    }
+    .control-container svg {
+        height: 22px;
+        width: 22px;
+    }
+}
+
     </style>
     <link href="/css/style.css" rel="stylesheet">
 </head>
@@ -379,6 +472,42 @@
                     inCall = false;
                 }
             }
+
+            const micButton = document.querySelector("#micButton");
+const cameraButton = document.querySelector("#cameraButton");
+
+let micEnabled = true;
+let cameraEnabled = true;
+
+// 🎤 MIC BUTTON
+micButton.addEventListener("click", () => {
+    if (!localStream) return;
+
+    micEnabled = !micEnabled;
+    localStream.getAudioTracks().forEach(track => track.enabled = micEnabled);
+
+    if (micEnabled) {
+        micButton.style.backgroundColor = "#6df966";
+    } else {
+        micButton.style.backgroundColor = "red";
+    }
+});
+
+// 📷 CAMERA BUTTON
+cameraButton.addEventListener("click", () => {
+    if (!localStream) return;
+
+    cameraEnabled = !cameraEnabled;
+    localStream.getVideoTracks().forEach(track => track.enabled = cameraEnabled);
+
+    if (cameraEnabled) {
+        cameraButton.style.backgroundColor = "#6df966";
+        document.querySelector("#localVideo").style.opacity = "1";  // 👈 VIDEO VISIBLE
+    } else {
+        cameraButton.style.backgroundColor = "red";
+        document.querySelector("#localVideo").style.opacity = "0";  // 👈 VIDEO BLACKED OUT
+    }
+});
         </script>
 </body>
 
