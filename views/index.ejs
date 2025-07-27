@@ -5,14 +5,84 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Omegle Clone</title>
-  <link href="/css/style.css" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(145deg, #151515, #1c1c1c);
+      color: #d6d6d6;
+    }
+
+    .container {
+      background: rgba(30, 30, 30, 0.9);
+      padding: 40px;
+      border-radius: 12px;
+      box-shadow: 0 0 15px rgba(0, 255, 204, 0.15);
+      width: 100%;
+      max-width: 360px;
+      text-align: center;
+      border: 1px solid rgba(0, 255, 204, 0.15);
+    }
+
+    h1 {
+      font-size: 2rem;
+      color: #66e0c2; /* Softer aqua instead of bright neon */
+      text-shadow: 0 0 8px rgba(102, 224, 194, 0.3);
+      margin-bottom: 16px;
+      animation: glow 3s ease-in-out infinite alternate;
+    }
+
+    @keyframes glow {
+      from {
+        text-shadow: 0 0 6px rgba(102, 224, 194, 0.3), 0 0 12px rgba(102, 224, 194, 0.2);
+      }
+      to {
+        text-shadow: 0 0 10px rgba(102, 224, 194, 0.5), 0 0 18px rgba(102, 224, 194, 0.3);
+      }
+    }
+
+    .start-btn {
+      display: inline-block;
+      width: 100%;
+      background: #4ad1b1;
+      color: #121212;
+      font-weight: bold;
+      padding: 12px;
+      border-radius: 40px;
+      font-size: 1.1rem;
+      text-decoration: none;
+      box-shadow: 0 0 10px rgba(74, 209, 177, 0.3);
+      transition: all 0.3s ease;
+    }
+
+    .start-btn:hover {
+      background: #3ab399;
+      transform: scale(1.05);
+      box-shadow: 0 0 16px rgba(74, 209, 177, 0.4);
+    }
+
+    footer {
+      margin-top: 18px;
+      font-size: 0.85rem;
+      color: #888;
+    }
+  </style>
 </head>
 
-<body class="flex items-center justify-center h-screen bg-gray-200">
-  <div class="bg-white flex items-center flex-col p-8 rounded-lg shadow-md w-full max-w-xs">
-    <h1 class="text-2xl font-bold mb-4 text-center">Welcome to Omegle Clone</h1>
-    <a href="/chat" class="w-full text-center bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700">Start
-      Chat</a>
+<body>
+  <div class="container">
+    <h1>Welcome to Omegle Clone</h1>
+    <a href="/chat" class="start-btn">🚀 Start Chat</a>
+    <footer>Connect • Chat • Video</footer>
   </div>
 </body>
 

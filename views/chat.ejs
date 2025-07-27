@@ -113,15 +113,43 @@ main {
     font-style: italic;
 }
 
-/* Messages */
-.bg-blue-500 {
-    background: #00bcd4 !important;
-    color: white;
+#message-container > div {
+    margin-bottom: 12px;
 }
 
-.bg-gray-300 {
-    background: #2c2c2c !important;
-    color: #e0e0e0;
+/* OUTGOING messages (you) */
+.user-message {
+    background: #075e54;
+    color: #fff;
+    padding: 10px 14px;
+    border-radius: 18px 18px 4px 18px;
+    max-width: 70%;
+    font-size: 15px;
+    line-height: 1.4;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.3);
+}
+
+/* INCOMING messages (other person) */
+.incoming-message {
+    background: #2a2a2a;
+    color: #fff;
+    padding: 10px 14px;
+    border-radius: 18px 18px 18px 4px;
+    max-width: 70%;
+    font-size: 15px;
+    line-height: 1.4;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.3);
+}
+
+/* Message alignment */
+.user-container {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.incoming-container {
+    display: flex;
+    justify-content: flex-start;
 }
 
 /* Chat form */
@@ -266,7 +294,9 @@ button[type="submit"]:hover {
                 userMessageContainer.classList.add('flex', 'my-2', 'justify-end');
 
                 const userMessageDiv = document.createElement('div');
-                userMessageDiv.classList.add('bg-blue-500', 'text-white', 'p-3', 'rounded-lg', 'max-w-xs');
+
+               userMessageContainer.classList.add('user-container');
+               userMessageDiv.classList.add('user-message');
 
                 const userMessageText = document.createElement('p');
                 userMessageText.textContent = message;
@@ -285,7 +315,9 @@ button[type="submit"]:hover {
                 messageContainer.classList.add('flex', 'my-2', 'justify-start');
 
                 const messageDiv = document.createElement('div');
-                messageDiv.classList.add('bg-gray-300', 'text-gray-800', 'p-3', 'rounded-lg', 'max-w-xs');
+                
+               messageContainer.classList.add('incoming-container');
+               messageDiv.classList.add('incoming-message');
 
                 const messageText = document.createElement('p');
                 messageText.textContent = message;
